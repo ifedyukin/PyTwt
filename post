@@ -15,16 +15,20 @@ except IndexError:
     try:
         sys.argv[1]
     except IndexError:
-        print('Epty tweet text. Run script with 1 arg.')
+        print('Error! Epty tweet text. Run script with 1 arg.')
         sys.exit()
     else:
-        t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
-        t.statuses.update(status=sys.argv[1])
-        print('Tweet "'+sys.argv[1]+'" was published.')
+        if len(sys.argv[1])<=140:
+            t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
+            t.statuses.update(status=sys.argv[1])
+            print('Tweet "'+sys.argv[1]+'" was published.')
+        else:
+            print('Error! Tweet length more than 140 characters.')
+            sys.exit()
 else:
-	with open(sys.argv[2], "rb") as imagefile:
-    		imagedata = imagefile.read()
-	t_up = Twitter(domain='upload.twitter.com', auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
-	id_img = t_up.media.upload(media=imagedata)["media_id_string"]
-	t.statuses.update(status=sys.argv[1], media_ids=",".join([id_img]))
-	print('Tweet "'+sys.argv[1]+'" + "IMG" was published.')
+    with open(sys.argv[2], "rb") as imagefile:
+            imagedata = imagefile.read()
+    t_up = Twitter(domain='upload.twitter.com', auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
+    id_img = t_up.media.upload(media=imagedata)["media_id_string"]
+    t.statuses.update(status=sys.argv[1], media_ids=",".join([id_img]))
+    print('Tweet "'+sys.argv[1]+'" + "IMG" was published.')
