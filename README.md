@@ -18,7 +18,13 @@ chmod +x PyTwt/post
 + Copy *access_token*, *access_token_secret*, *consumer_key*, *consumer_secret* and Paste to *post* file  
 
 ### Using  
+##### Text post
 Open *Terminal*:  
 ```bash
 ./post "twitter post text"
+```  
+##### Text post with IMG-file
+Open *Terminal*:  
+```bash
+./post "twitter post text" img.png
 ```  
