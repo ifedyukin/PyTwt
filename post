@@ -9,6 +9,43 @@ access_token_secret = "access_token_secret"
 consumer_key = "consumer_key"
 consumer_secret = "consumer_secret"
 
+#post on;y text
+def post(tweet):
+    if len(tweet)<=140:
+        t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
+        t.statuses.update(status=tweet)
+        print('Tweet "'+tweet+'" was published.')
+    else:
+        print('Error! Tweet length more than 140 characters.')
+        sys.exit()
+    pass
+
+#post with img (2 arg)
+def postImg():
+    if len(sys.argv[1])<=140:
+        with open(sys.argv[2], "rb") as imagefile:
+            imagedata = imagefile.read()
+        t_up = Twitter(domain='upload.twitter.com', auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
+        id_img = t_up.media.upload(media=imagedata)["media_id_string"]
+        t.statuses.update(status=sys.argv[1], media_ids=",".join([id_img]))
+        print('Tweet "'+sys.argv[1]+'" + "IMG" was published.')
+    else:
+        print('Error! Tweet length more than 140 characters.')
+        sys.exit()
+        pass
+
+#post a lot of tweets
+def ctwt():
+    print('Input text and push Enter for post.')
+    print('Input /exit for finish this.')
+    tweet=0
+    while tweet!='/exit': 
+        tweet=input('>')
+        if tweet!=0 and tweet!='/exit':
+            post(tweet)
+    print('Finish program.')
+    sys.exit()
+
 try: 
     sys.argv[2]
 except IndexError:
@@ -18,17 +55,10 @@ except IndexError:
         print('Error! Epty tweet text. Run script with 1 arg.')
         sys.exit()
     else:
-        if len(sys.argv[1])<=140:
-            t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
-            t.statuses.update(status=sys.argv[1])
-            print('Tweet "'+sys.argv[1]+'" was published.')
+        if sys.argv[1]=='--c':
+            ctwt()
         else:
-            print('Error! Tweet length more than 140 characters.')
-            sys.exit()
+            if sys.argv[1]!='--c':
+                post(sys.argv[1])
 else:
-    with open(sys.argv[2], "rb") as imagefile:
-            imagedata = imagefile.read()
-    t_up = Twitter(domain='upload.twitter.com', auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
-    id_img = t_up.media.upload(media=imagedata)["media_id_string"]
-    t.statuses.update(status=sys.argv[1], media_ids=",".join([id_img]))
-    print('Tweet "'+sys.argv[1]+'" + "IMG" was published.')
+    postImg()
