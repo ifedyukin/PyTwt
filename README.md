@@ -3,6 +3,7 @@
 Open *Terminal*:  
 ```bash
 sudo pip install twitter
+sudo pip install termcolor
 git clone https://github.com/ifedyukin/PyTwt.git
 chmod +x PyTwt/post
 ```  

@@ -2,6 +2,7 @@
 # coding: utf8
 
 from twitter import *
+from termcolor import colored
 import sys
 
 access_token = "access_token"
@@ -14,9 +15,9 @@ def post(tweet):
     if len(tweet)<=140:
         t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
         t.statuses.update(status=tweet)
-        print('Tweet "'+tweet+'" was published.')
+        print(colored('Tweet "'+tweet+'" was published.','green'))
     else:
-        print('Error! Tweet length more than 140 characters.')
+        print(colored('Error! Tweet length more than 140 characters.','red'))
         sys.exit()
     pass
 
@@ -28,9 +29,9 @@ def postImg():
         t_up = Twitter(domain='upload.twitter.com', auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
         id_img = t_up.media.upload(media=imagedata)["media_id_string"]
         t.statuses.update(status=sys.argv[1], media_ids=",".join([id_img]))
-        print('Tweet "'+sys.argv[1]+'" + "IMG" was published.')
+        print(colored('Tweet "'+sys.argv[1]+'" + "IMG" was published.','green'))
     else:
-        print('Error! Tweet length more than 140 characters.')
+        print(colored('Error! Tweet length more than 140 characters.','red'))
         sys.exit()
         pass
 
@@ -52,7 +53,7 @@ except IndexError:
     try:
         sys.argv[1]
     except IndexError:
-        print('Error! Epty tweet text. Run script with 1 arg.')
+        print(colored('Error! Epty tweet text. Run script with 1 arg.','red'))
         sys.exit()
     else:
         if sys.argv[1]=='--c':
