@@ -44,3 +44,12 @@ Tweet "Tweet2" was published.
 >/exit
 Finish program.
 ```  
+
+##### Get some tweet
+Open *Terminal*:  
+```bash
+./post --h
+Input user-name.
+>username
+"some tweets"
+```  

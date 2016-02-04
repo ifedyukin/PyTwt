@@ -10,7 +10,9 @@ access_token_secret = "access_token_secret"
 consumer_key = "consumer_key"
 consumer_secret = "consumer_secret"
 
-#post on;y text
+t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
+
+#post only text
 def post(tweet):
     if len(tweet)<=140:
         t = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
@@ -46,6 +48,22 @@ def ctwt():
             post(tweet)
     print('Finish program.')
     sys.exit()
+    pass
+
+#get tweets
+def gt():
+    print('Input user-name:')
+    user=input('>')
+    if len(user)>0:
+        results = t.statuses.user_timeline(screen_name=user)
+        i=0
+        for status in results:
+            if i<=10:
+                print (colored('>'+user,'blue')+'\n'+status["text"])
+                i=i+1
+            else:
+                sys.exit()
+    pass
 
 try: 
     sys.argv[2]
@@ -53,13 +71,14 @@ except IndexError:
     try:
         sys.argv[1]
     except IndexError:
-        print(colored('Error! Epty tweet text. Run script with 1 arg.','red'))
+        print(colored('Error! Run script with 1 arg.','red'))
         sys.exit()
     else:
+        if sys.argv[1]!='--c' and sys.argv[1]!='--h':
+            post(sys.argv[1])
         if sys.argv[1]=='--c':
             ctwt()
-        else:
-            if sys.argv[1]!='--c':
-                post(sys.argv[1])
+        if sys.argv[1]=='--h':
+            gt()
 else:
     postImg()
