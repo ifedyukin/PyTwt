@@ -56,9 +56,11 @@ def gt():
     user=input('>')
     if len(user)>0:
         results = t.statuses.user_timeline(screen_name=user)
-        i=0
+        print('How much tweets:')
+        k=int(input('>'))
+        i=1
         for status in results:
-            if i<=10:
+            if i<=k:
                 print (colored('>'+user,'blue')+'\n'+status["text"])
                 i=i+1
             else:
